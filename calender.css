@@ -1,0 +1,21 @@
+.prev{
+    float: left;
+}
+.next{
+    float: right;
+}
+.cur_month{
+    text-align: center;
+}
+.calender{
+    width: 90%;
+    border: 1px solid black;
+    border-collapse: collapse;
+    text-align: center;
+}
+tr,td,th{
+    padding: 15px;
+    border: 1px solid black;
+    border-collapse: collapse;
+    text-align: center;
+}

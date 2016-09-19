@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Cynic, the unkown page of internet</title>
+	<meta charset="UTF-8"/>
+	<link rel="stylesheet" type="text/css" href="main.css" />
+</head>
+<body>
+	<!-- header -->
+	<div id="header" role="banner">
+		<div id="header_bottom_left">
+			<a href="./" id="header_img" class="default_header" title>
+				<img src="img/header_icon.png" alt="cynic" id="banner_img" ></img>
+			</a>
+			<!-- how to create a banner img here?-->
+		</div>
+	</div>
+    <hr>
+        <!--using post method to send information to login.php"-->
+        <form>
+        	<!-- 用jQuery来保证非空输入 -->
+            <label>Username: <input type="text" name="username" /></label>
+            <label>Password: <input type="password" name="password" /></label>
+            <input type="button" value="Sign Up" onclick="reg()"/>
+        </form>
+    <hr>
+
+</body>
+<!-- script goes here -->
+<script src="js/jquery-1.12.2.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+function reg(){
+	// var name=$.trim($("#username").val());
+	// var pass=$.trim($("#password").val());
+ //    if(name.length>0 && pass.length>0){
+	//alert("wow");
+	var username = document.getElementsByName("username")[0].value;
+	var pwd = document.getElementsByName("password")[0].value;
+	var credential = "username="+encodeURIComponent(username)+"&password=" +encodeURIComponent(pwd);
+	console.log(credential);
+
+	var xmlHttp = new XMLHttpRequest(); // Initialize our XMLHttpRequest instance
+	xmlHttp.open("POST", "reg.php", true); // Starting a POST request (NEVER send passwords as GET variables!!!) send username and password to login.php
+	xmlHttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded"); // It's easy to forget this line for POST requests
+	xmlHttp.addEventListener("load", check, false); // Bind the callback to the load event
+	console.log(JSON.stringify(credential));
+	xmlHttp.send(credential);
+	// }else{
+	// 	alert("Please fill in all the information");
+	// }
+}
+function check(event) {//callback function
+	var jsonData = JSON.parse(event.target.responseText); // parse the JSON into a JavaScript object
+		//alert(event.target.responseText);
+		//alert("wow1");
+		/*
+		TODO
+		返回任意内容JSON，但是里面必须包含`success:true/false`，用来表示是否成功，如果false的话，加一个`reason:错误的原因`
+		后端在保存密码的时候需要加密，参考之前的register.php
+		*/
+	if(jsonData.success){  // in PHP, this was the "success" key in the associative array; in JavaScript, it's the .success property of jsonData
+		alert("You have registered successfully!");
+			// var token=jsonData.token;
+			// document.getElementById("log").innerHTML="Hello "+jsonData.uname;
+			// $(document).ready(function(){
+			// 	$("div#adddiv").show();
+			// 	$("div#l").show();
+			// }	
+	}else{
+		alert(jsonData.message);
+	}
+}
+// document.getElementById("button").addEventListener("click", reg, false);
+</script>
+</html>
